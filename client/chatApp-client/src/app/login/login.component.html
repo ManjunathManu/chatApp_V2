@@ -1,14 +1,14 @@
 <div class="container">
-  <h2>Sign up</h2>
-  <form (ngSubmit)="onSubmit()" #signUpForm="ngForm">
-    <div class="form-group">
+  <h3>Log in</h3>
+  <form (ngSubmit)="onSubmit()" #logInForm="ngForm">
+    <!-- <div class="form-group">
       <label for="userName">Username</label>
       <input type="email" class="form-control" id="userName" aria-describedby="userNameHelp" placeholder="Enter username" required
         [(ngModel)]="user.userName" name="userName" #userName="ngModel">
     </div>
     <div [hidden]="userName.valid || userName.pristine" class="alert alert-danger">
       Username is required
-    </div>
+    </div> -->
     <div class="form-group">
       <label for="exampleInputEmail1">Email address</label>
       <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" required
@@ -16,13 +16,12 @@
       <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
     </div>
     <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
-
       <div *ngIf="email.errors.required">
         Email is required.
       </div>
-      <div *ngIf="!email.errors.email">
+      <!-- <div *ngIf="!email.errors.email">
         Invalid email.
-      </div>
+      </div> -->
     </div>
     <!-- <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
       Email is required
@@ -41,12 +40,6 @@
         Password must be at least 6 characters long.
       </div>
     </div>
-    <button type="submit" class="btn btn-primary" [disabled]="!signUpForm.form.valid">Sign up</button>
+    <button type="submit" class="btn btn-primary" [disabled]="!logInForm.form.valid">Log in</button>
   </form>
-  <div >
-    <p style="display:inline">Already a member?</p>
-    <button type="submit" class="btn btn-secondary" style="display:inline"
-    (click)="onClickLogin()">Log in</button>
-  </div>
-
 </div>

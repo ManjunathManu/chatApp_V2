@@ -6,8 +6,8 @@ const Schema = mongoose.Schema,
 const UserSchema = new Schema({
     userId: { type: ObjectId },
     userName: { type: String, required: true, index: true },
-    email: { type: String, min: 18, required: true, index: true },
-    password: { type: String, required: true, match: /[a-z]/ },
+    email: { type: String, required: true, index: true },
+    password: { type: String, required: true},
     signedUpDate: { type: Date, default: Date.now },
 });
 
@@ -54,6 +54,42 @@ UserSchema.statics.findUserInDb = function (user) {
     })
 }
 
+UserSchema.statics.findByCredentials = function (email, password) {
+    let User = this;
+  
+    return User.findOne({email}).then((user) => {
+      if (!user) {
+        return Promise.reject();
+      }
+  
+      return new Promise((resolve, reject) => {
+        // Use bcrypt.compare to compare password and user.password
+        bcrypt.compare(password, user.password, (err, res) => {
+          if (res) {
+            resolve(user);
+          } else {
+            reject("Incorrect email or password");
+          }
+        });
+      });
+    });
+};
+
+UserSchema.statics.getAllUsers = function(){
+    let User = this;
+
+    return User.find({},'userName')
+        .then((users)=>{
+            if(users && users.length > 0){
+                return Promise.resolve(users);
+            }else{
+                return Promise.resolve([])
+            }
+        })
+        .catch((err)=>{
+            return Promise.reject(err);
+        })
+}
 const User = mongoose.model('user', UserSchema);
 
 module.exports = { User }

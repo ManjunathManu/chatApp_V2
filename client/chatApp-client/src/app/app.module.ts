@@ -7,15 +7,22 @@ import { AppComponent } from './app.component';
 import { SignupFormComponent } from './signup-form/signup-form.component';
 import { AppRoutingModule } from './app-routing.module';
 import { UserService } from './../app/user.service';
+import {SocketsService} from './../app/sockets.service'
 import { ChatComponent } from './chat/chat.component';
 import { AlertsComponent } from './alerts/alerts.component'
 import { AlertsService } from './alerts.service';
+import { LoginComponent } from './login/login.component';
+import { ChatListComponent } from './chat-list/chat-list.component';
+import { ChatWindowComponent } from './chat-window/chat-window.component';
 @NgModule({
   declarations: [
     AppComponent,
     SignupFormComponent,
     ChatComponent,
     AlertsComponent,
+    LoginComponent,
+    ChatListComponent,
+    ChatWindowComponent,
   ],
   imports: [
     BrowserModule,
@@ -26,7 +33,8 @@ import { AlertsService } from './alerts.service';
   ],
   providers: [
     UserService,
-    AlertsService
+    AlertsService,
+    SocketsService
   ],
   bootstrap: [AppComponent]
 })

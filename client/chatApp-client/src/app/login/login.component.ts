@@ -2,13 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { User }    from '../user';
 import {UserService} from './../../app/user.service';
 import { Router } from '@angular/router';
-
 @Component({
-  selector: 'app-signup-form',
-  templateUrl: './signup-form.component.html',
-  styleUrls: ['./signup-form.component.css']
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
-export class SignupFormComponent implements OnInit {
+export class LoginComponent implements OnInit {
 
   public user = new User("",'','');
   constructor(private userService : UserService,
@@ -17,20 +16,13 @@ export class SignupFormComponent implements OnInit {
   ngOnInit() {
   }
 
-  /**
-   * onSubmit
-   */
   public onSubmit() {
     console.log('Form submitted',this.user);
-    this.userService.signUp(this.user)
+    this.userService.logIn(this.user)
       .then((status)=>{
         this.router.navigateByUrl('/chat')
       })
       .catch((error)=>{
       })
-  }
-
-  public onClickLogin(){
-    this.router.navigateByUrl('/login')
   }
 }
