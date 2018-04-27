@@ -14,6 +14,9 @@ import { AlertsService } from './alerts.service';
 import { LoginComponent } from './login/login.component';
 import { ChatListComponent } from './chat-list/chat-list.component';
 import { ChatWindowComponent } from './chat-window/chat-window.component';
+import { MessageComponent } from './message/message.component';
+import { CookieService } from 'ngx-cookie-service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,6 +26,7 @@ import { ChatWindowComponent } from './chat-window/chat-window.component';
     LoginComponent,
     ChatListComponent,
     ChatWindowComponent,
+    MessageComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,7 +38,8 @@ import { ChatWindowComponent } from './chat-window/chat-window.component';
   providers: [
     UserService,
     AlertsService,
-    SocketsService
+    SocketsService,
+    CookieService
   ],
   bootstrap: [AppComponent]
 })

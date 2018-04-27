@@ -1,0 +1,8 @@
+<ul *ngIf="messageHistory.length > 0">
+  <li *ngFor="let message of messageHistory">
+    <h6>{{message.sender}}</h6>
+    <p>{{message.text}}</p>
+    <p>{{message.time}}</p>
+  </li>
+</ul>
+

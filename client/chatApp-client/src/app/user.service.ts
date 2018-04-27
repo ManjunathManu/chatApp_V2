@@ -3,61 +3,72 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import { User } from './user';
-import { AlertsService} from './alerts.service';
+import { AlertsService } from './alerts.service';
 import { Alert } from './alert';
 import 'rxjs/add/operator/toPromise'
 import { Observable } from 'rxjs/Observable';
+import { CookieService } from 'ngx-cookie-service';
 @Injectable()
 export class UserService {
   private userUrl = '/api/user';  // URL to web api
 
   constructor(
     private http: HttpClient,
-    private alertService : AlertsService
+    private alertService: AlertsService,
+    private cookieService: CookieService
   ) { }
 
-  signUp(user):Promise<Object> {
+  signUp(user): Promise<Object> {
     const url = `${this.userUrl}/signUp`
     return new Promise((resolve, reject) => {
-      this.http.post(url, user)
+      this.http.post(url, user, { observe: 'response' })
         .toPromise()
-        .then((status) => {
-          console.log("sign up api status--", status);
-          this.alertService.add(new Alert(true,"You have succesfully signed up"));
-          resolve(status);
+        .then((response) => {
+          console.log("sign up api status--", response.body);
+          this.cookieService.set('chatApp_V2', response.headers.get('authorization'));
+          this.alertService.add(new Alert(true, "You have succesfully signed up"));
+          resolve(response);
         })
-        .catch((error)=>{
-          console.log("Sign up error--",error);
-          this.alertService.add(new Alert(false,error.error.err));
+        .catch((error) => {
+          console.log("Sign up error--", error);
+          this.alertService.add(new Alert(false, error.error.err));
           reject(error)
         })
     });
   }
 
-  logIn(user):Promise<Object>{
+  logIn(user): Promise<Object> {
     const url = `${this.userUrl}/logIn`
-    return new Promise((resolve, reject)=>{
-      this.http.post(url, user)
-      .toPromise()
-      .then((status) => {
-        console.log("log in api status--", status);
-        this.alertService.add(new Alert(true,"You have succesfully logged in"));
-        resolve(status);
-      })
-      .catch((error)=>{
-        console.log("log in error--",error);
-        this.alertService.add(new Alert(false,error.error.err));
-        reject(error)
-      })
+    return new Promise((resolve, reject) => {
+      this.http.post(url, user, { observe: 'response' })
+        .toPromise()
+        .then((response) => {
+          console.log("log in api status--", response.body);
+          this.cookieService.set('chatApp_V2', response.headers.get('authorization'));
+          // this.cookieValue = this.cookieService.get('Test');
+          this.alertService.add(new Alert(true, "You have succesfully logged in"));
+          resolve(response);
+        })
+        .catch((error) => {
+          console.log("log in error--", error);
+          this.alertService.add(new Alert(false, error.error.err));
+          reject(error)
+        })
     })
   }
 
-  getAllUsers():Observable<any>{
+  getAllUsers(): Observable<any> {
     const url = `${this.userUrl}/getAllUsers`
-    return this.http.get(url)
-    .pipe(
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'authorization': this.cookieService.get('chatApp_V2')
+      })
+    }
+    return this.http.get(url,httpOptions)
+      .pipe(
       tap(_ => console.log(`Fetched users`))
-      // catchError(_ => console.log('Error while fetching all users'))
       )
   }
+
+  
 }

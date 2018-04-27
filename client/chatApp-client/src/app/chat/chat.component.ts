@@ -19,7 +19,6 @@ export class ChatComponent implements OnInit {
       console.log('Got all users---', usersFromDb);
     })
     this.socketsService.intializeSocketConnection();
-
   }
 
 }

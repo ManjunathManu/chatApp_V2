@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
     console.log('Form submitted',this.user);
     this.userService.logIn(this.user)
       .then((status)=>{
-        this.router.navigateByUrl('/chat')
+        this.router.navigateByUrl(`/chat`);
       })
       .catch((error)=>{
       })
