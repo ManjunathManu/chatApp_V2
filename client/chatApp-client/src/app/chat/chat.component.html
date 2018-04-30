@@ -1,10 +1,10 @@
 <div class="container-fluid">
   <div class="row content">
-    <div class="col-sm-3 chatList" >
+    <div class="col-sm-3 chatList">
       <app-chat-list [users]="users"></app-chat-list>
     </div>
     <div class="col-sm-9 chatWindow">
-      <app-chat-window></app-chat-window>
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>

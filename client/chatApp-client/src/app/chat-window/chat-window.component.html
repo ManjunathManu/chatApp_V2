@@ -1,5 +1,6 @@
-    <h4>
-        Chat window!
+    <div *ngIf="showChatWindow">
+      <h4>
+        {{receiverName}}
     </h4>
     <div>
       <app-message *ngIf="messageToBeSent" [message]="messageToBeSent"></app-message>
@@ -17,4 +18,6 @@
             <button class="btn btn-info" id="send-location">Send location</button>
           </div>
       </div>
+    </div>
+
 

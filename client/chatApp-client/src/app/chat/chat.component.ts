@@ -1,16 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from './../user.service'
 import {  SocketsService } from './../sockets.service'
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit{
   public users : Object[] = []
   private socket = null;
+  // private showChatWindow : boolean = false;
+private senderName :string = null;
   constructor(private userService:UserService,
-  private socketsService:SocketsService) { }
+  private socketsService:SocketsService,
+  private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.userService.getAllUsers()
@@ -18,7 +22,9 @@ export class ChatComponent implements OnInit {
       this.users = usersFromDb.users;
       console.log('Got all users---', usersFromDb);
     })
-    this.socketsService.intializeSocketConnection();
+    this.senderName = this.route.snapshot.params.senderName;
+    // this.showChatWindow = this.route.snapshot.data['showChatWindow'];
+    this.socketsService.intializeSocketConnection(this.senderName);
+    // console.log('Query params---',this.route.snapshot.params.uid)
   }
-
 }

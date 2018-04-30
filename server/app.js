@@ -6,6 +6,7 @@ const socketIO = require('socket.io')
 const bodyParser = require("body-parser");
 const db = require('./db/config')
 const User = require('./models/users')
+const Chat = require('./models/chats')
 const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);

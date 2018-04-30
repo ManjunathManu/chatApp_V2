@@ -14,7 +14,9 @@ export class MessageComponent implements OnInit {
   }
 
   ngOnChanges(){
+    console.log('messafe-----',typeof this.message, this.message)
     this.messageHistory.push(this.message);
+    console.log('Message history',this.messageHistory)
   }
 
 }

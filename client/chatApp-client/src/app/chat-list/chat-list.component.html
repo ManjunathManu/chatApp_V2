@@ -1,6 +1,6 @@
 <h3>Chat list</h3>
 <ul>
   <li *ngFor="let user of users">
-    <a href="/chat">{{user.userName}}</a>
+    <a routerLink="/chat/{{senderName}}/{{user.userName}}" (click)="getPrivateMessages(senderName, user.userName)">{{user.userName}}</a>
   </li>
 </ul>
