@@ -17,12 +17,13 @@ private senderName :string = null;
   private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.userService.getAllUsers()
+    this.senderName = this.route.snapshot.params.senderName;
+    console.log('sender name---',this.senderName)
+    this.userService.getAllUsers(this.senderName)
     .subscribe((usersFromDb)=>{
       this.users = usersFromDb.users;
       console.log('Got all users---', usersFromDb);
     })
-    this.senderName = this.route.snapshot.params.senderName;
     // this.showChatWindow = this.route.snapshot.data['showChatWindow'];
     this.socketsService.intializeSocketConnection(this.senderName);
     // console.log('Query params---',this.route.snapshot.params.uid)

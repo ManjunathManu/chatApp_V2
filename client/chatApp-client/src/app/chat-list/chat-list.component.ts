@@ -3,6 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { UserService } from './../user.service'
 import { ActivatedRoute } from '@angular/router';
+import { SocketsService } from './../sockets.service'
 
 
 @Component({
@@ -12,20 +13,20 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ChatListComponent implements OnInit {
   @Input() users = String;
-  public senderName : string = this.route.snapshot.params.senderName
-  constructor(private cookieService:CookieService,
-    private userService:UserService,
+  public senderName: string = this.route.snapshot.params.senderName
+  constructor(
+    private socketsService: SocketsService,
+    private cookieService: CookieService,
+    private userService: UserService,
     private route: ActivatedRoute) { }
 
   ngOnInit() {
   }
 
-  // getPrivateMessages(senderName, receiverName){
-  //   this.userService.getPrivateMessages(senderName,receiverName)
-  //   .subscribe((messges)=>{
-  //     console.log('messageddddd',messges)
-  //   })
-  // }
-
-
+  getPrivateMessages(senderName, receiverName) {
+    this.socketsService.getPrivateMessages(senderName, receiverName)
+      // .subscribe((messges) => {
+      //   console.log('messageddddd', messges);
+      // })
+  }
 }

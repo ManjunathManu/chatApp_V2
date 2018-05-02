@@ -85,7 +85,7 @@ UserSchema.statics.getAllUsers = function (requestingUser) {
     return User.find({}, 'userName')
         .then((users) => {
             if (users && users.length > 0) {
-                users = users.filter(user => user.userName !== requestingUser.userName);
+                users = users.filter(user => user.userName !== requestingUser);
                 return Promise.resolve(users);
             } else {
                 return Promise.resolve([])
@@ -163,6 +163,18 @@ UserSchema.statics.updateSocketId = function(socketId,userName,operation){
             }else{
                 // console.log('updated user---',user)
                 return Promise.resolve(user);
+            }
+        })
+}
+
+UserSchema.statics.getSocketId = async function(userName){
+    let User = this;
+    return User.findOne({userName},'socketId')
+        .then((user)=>{
+            if(!user){
+                return Promise.reject('Could not find the socketid of the requested user');
+            }else{
+                return Promise.resolve(user.socketId);
             }
         })
 }

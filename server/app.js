@@ -16,7 +16,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(require('./routes'));
 
-io.on('connection',socketCommunication)
+io.on('connection',socketCommunication);
+
 const serverCreated = server.listen(3000, function () {
     console.log("Listening on port %s...", serverCreated.address().port);
 });
+
+// module.exports ={io:io}

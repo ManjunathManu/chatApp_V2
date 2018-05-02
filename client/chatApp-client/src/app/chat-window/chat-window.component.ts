@@ -18,7 +18,8 @@ export class ChatWindowComponent implements OnInit {
   private showChatWindow: boolean = false;
   private sub: any;
 
-  constructor(private socketsService: SocketsService,
+  constructor(
+    private socketsService: SocketsService,
     private cookieService: CookieService,
     private route: ActivatedRoute) {
     this.socketsService.messages$.subscribe(

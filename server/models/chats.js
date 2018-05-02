@@ -4,52 +4,53 @@ const Schema = mongoose.Schema,
 
 const ChatSchema = new Schema({
     chatId: { type: ObjectId },
-    userName1: { type: String, required: true },
-    userName2: { type: String, required: true },
-
-    // userNames: [{type:String, required:true}],
+    userNames: [{type:String, required:true}],
     messages: { type: Array, required: true },
 });
 
 ChatSchema.statics.saveMessage = function (message, receiverName) {
     let Chat = this;
     return Chat.findOneAndUpdate({
-        $or: [
-            { 'userName1': message.sender },
-            { 'userName2': receiverName }
-            // {userNames:{$elemMatch:message.sender}}
-        ]
+        userNames:{
+            $all:[message.sender, receiverName]
+        }
     }, { $push: { messages: message } }, { new: true })
         .then((chats) => {
-            console.log('updated Chats---', chats)
+            console.log('updated Chats---')
         })
 }
 
-ChatSchema.statics.findChatInDb = function (message, receiverName) {
+ChatSchema.statics.findChatInDb = function (senderName, receiverName) {
     return new Promise((resolve, reject) => {
         let Chat = this;
         Chat.findOne({
-            $or: [
-                // { 'userNames': [message.sender,receiverName] },
-                // { 'userNames': [receiverName,message.sender ]}
-                { 'userName1': message.sender },
-                { 'userName2': receiverName }
-            ]
-        }, (err, chats) => {
-            console.log('chatsss---', err, chats)
+            userNames:{
+                $all:[senderName, receiverName]
+            }
+        },'messages', (err, chats) => {
+            // console.log('chats----',chats);
             if (err) {
                 console.log('error while checking for chat--', err);
                 reject(err);
             } else if (!chats) {
                 console.log('No chat document found for these two users')
-                resolve(true);
-            } else {
-                console.log('Chat document exists for these users')
+                // resolve(true);
                 reject(false);
+            } else {
+                console.log('Chat document exists for these users');
+                resolve(chats);
             }
         })
     })
 }
+
+// UserSchema.statics.getChatMessages = function(senderName, receiverName){
+//     let User = this;
+
+//     return User.findOne({
+        
+//     })
+// }
 
 const Chat = mongoose.model('chat', ChatSchema);
 

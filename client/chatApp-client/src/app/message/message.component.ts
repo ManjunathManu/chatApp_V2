@@ -7,7 +7,8 @@ import { Message } from './../message'
 })
 export class MessageComponent implements OnInit {
  @Input()message:Message;
- private messageHistory :Message[] = [];
+ @Input('privateMessages') messageHistory : Message[] = [];
+//  private messageHistory :Message[] = [];
   constructor() { }
 
   ngOnInit() {

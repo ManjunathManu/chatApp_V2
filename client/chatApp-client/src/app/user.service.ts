@@ -57,12 +57,15 @@ export class UserService {
     })
   }
 
-  getAllUsers(): Observable<any> {
+  getAllUsers(senderName): Observable<any> {
     const url = `${this.userUrl}/getAllUsers`
     const httpOptions = {
       headers: new HttpHeaders({
-        'authorization': this.cookieService.get('chatApp_V2')
-      })
+        'authorization': this.cookieService.get('chatApp_V2'),
+      }),
+      params:{
+        senderName:senderName
+      }
     }
     return this.http.get(url,httpOptions)
       .pipe(
@@ -70,18 +73,18 @@ export class UserService {
       )
   }
 
-  getPrivateMessages(senderName, receiverName):Observable<any>{
-    const url = `${this.userUrl}/chat/:senderName/:receiverName`
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'authorization': this.cookieService.get('chatApp_V2')
-      })
-    }
+  // getPrivateMessages(senderName, receiverName):Observable<any>{
+  //   const url = `${this.userUrl}/chat/${senderName}/${receiverName}`
+  //   const httpOptions = {
+  //     headers: new HttpHeaders({
+  //       'authorization': this.cookieService.get('chatApp_V2')
+  //     })
+  //   }
 
-    return this.http.get(url, httpOptions)
-    .pipe(
-      tap ( _ => console.log('Fetched All private messaged'))
-    )
-  }
+  //   return this.http.get(url, httpOptions)
+  //   .pipe(
+  //     tap ( _ => console.log('Fetched All private messaged'))
+  //   )
+  // }
 
 }

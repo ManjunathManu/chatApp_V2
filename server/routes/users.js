@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const { User } = require('./../models/users');
+const { Chat } = require('./../models/chats');
+
 const {authenticate} = require('./../middleware/authenticate');
+
 router.post('/signUp', function (req, res) {
     console.log("[API:::signUp]")
     let data = req.body ? req.body : null;
@@ -53,7 +56,8 @@ router.post('/logIn', function (req, res) {
 })
 
 router. get('/getAllUsers', authenticate,function (req, res) {
-    User.getAllUsers(req.user)
+    console.log('get all users for sender--',req.query.senderName)
+    User.getAllUsers(req.query.senderName)
         .then((users) => {
             res.status(200).send({ status: "Got all users", users });
         })
@@ -62,9 +66,17 @@ router. get('/getAllUsers', authenticate,function (req, res) {
         })
 })
 
-router.get('/chat',authenticate,function(req,res){
-    let receiver = req.query;
-    console.log('Receiver--',receiver);
-    res.status(200).send();
+router.get('/chat/:senderName/:receiverName',authenticate, function(req, res){
+    let senderName = req.params.senderName;
+    let receiverName = req.params.receiverName;
+    console.log('fetch chat messages for sender and receiver---',senderName,receiverName)
+    Chat.findChatInDb(senderName, receiverName)
+        .then((chats)=>{
+            res.status(200).send(chats.messages)
+        })
+        .catch((err)=>{
+            console.log('Could not fetch the chat messages',err);
+            res.status(500).send('Internal server error')
+        })
 })
 module.exports = router;
