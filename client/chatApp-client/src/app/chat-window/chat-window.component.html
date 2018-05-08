@@ -1,23 +1,18 @@
-    <div *ngIf="showChatWindow">
-      <h4>
-        {{receiverName}}
-    </h4>
-    <div>
-      <app-message *ngIf="messageToBeSent" [message]="messageToBeSent"></app-message>
+<div *ngIf="showChatWindow" id="test">
+  <h4>
+    {{receiverName}}
+  </h4>
+  <div class="messageWindow">
+    <app-message></app-message>
+  </div>
+  <div class="input-group" id="messageBar">
+    <input (keyup.enter)="sendMessage(message.value);message.value=''" name="message" id="message-form" class="form-control"
+      placeholder="Message..." aria-label="Recipient's username" aria-describedby="basic-addon2" #message>
+    <div class="input-group-append">
+      <button ng-disabled="true" id="sendBtn" class="btn btn-success" (click)="sendMessage(message.value);message.value=''">
+        <i class="material-icons">send</i>
+      </button>
+      <button class="btn btn-info" id="send-location">Send location</button>
     </div>
-      <div class="input-group" id="messageBar">
-          <input (keyup.enter)="sendMessage(message.value);message.value=''"
-          name="message" id="message-form" class="form-control" 
-          placeholder="Message..." aria-label="Recipient's username" aria-describedby="basic-addon2" 
-          #message>
-          <div class="input-group-append">
-            <button ng-disabled="true" id="sendBtn" class="btn btn-success"
-            (click)="sendMessage(message.value);message.value=''">
-              <i class="material-icons">send</i>
-            </button>
-            <button class="btn btn-info" id="send-location">Send location</button>
-          </div>
-      </div>
-    </div>
-
-
+  </div>
+</div>

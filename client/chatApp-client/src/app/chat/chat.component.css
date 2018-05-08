@@ -1,9 +1,20 @@
 .chatList {
-    background-color: #ecc8c8;
-    height: 100%;
+  background-color: #f1f1f1;
+  position: fixed;
+  overflow-y: auto
   }
-  .row.content {height: 678px} 
+  .row.content {height: auto;}
+
   .chatWindow {
     background-color: #d9e7bf;
-    height: 100%;
+    height:100%;
+    position: relative
+  }
+
+  @media screen and (max-width: 767px) {
+    .chatList {
+      height: auto;
+      padding: 15px;
+    }
+    .row.content {height: auto;} 
   }

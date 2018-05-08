@@ -22,21 +22,38 @@ export class ChatWindowComponent implements OnInit {
     private socketsService: SocketsService,
     private cookieService: CookieService,
     private route: ActivatedRoute) {
-    this.socketsService.messages$.subscribe(
-      message => {
-        this.messageToBeSent = message;
-      }
-    )
-    this.showChatWindow = this.route.snapshot.data['showChatWindow'];
+    // this.socketsService.messages$.subscribe(
+    //   message => {
+    //     this.messageToBeSent = message;
+    //   }
+    // )
+    this.sub = this.route.parent.params
+    .subscribe(params => {
+      this.senderName = params["senderName"];
+      console.log('sender name--',this.senderName)
+    });
 
+    this.route.params.subscribe(params => {
+      console.log('!!!!!!!!!', params);
+      this.receiverName = params.receiverName;
+      // this.socketsService.getPrivateMessages(this.senderName, this.receiverName)
+
+    });
+
+    this.showChatWindow = this.route.snapshot.data['showChatWindow'];
   }
 
   ngOnInit() {
     // Get parent ActivatedRoute of this route.
-    this.sub = this.route.parent.params
-      .subscribe(params => {
-        this.senderName = params["senderName"];
-      });
+    // this.senderName = this.route.snapshot.params.senderName;
+    // this.receiverName = this.route.snapshot.params.receiverName;
+
+    // this.sub = this.route.parent.params
+    //   .subscribe(params => {
+    //     this.senderName = params["senderName"];
+    //     console.log('sender name--',this.senderName)
+    //   });
+    // this.socketsService.getPrivateMessages(this.senderName, this.receiverName)
   }
 
   ngOnDestroy() {
@@ -49,5 +66,4 @@ export class ChatWindowComponent implements OnInit {
     this.messageToBeSent = new Message(this.senderName, msg, Date());
     this.socketsService.sendMessage(this.messageToBeSent, this.receiverName);
   }
-
 }

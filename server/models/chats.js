@@ -44,14 +44,6 @@ ChatSchema.statics.findChatInDb = function (senderName, receiverName) {
     })
 }
 
-// UserSchema.statics.getChatMessages = function(senderName, receiverName){
-//     let User = this;
-
-//     return User.findOne({
-        
-//     })
-// }
-
 const Chat = mongoose.model('chat', ChatSchema);
 
 module.exports = { Chat }

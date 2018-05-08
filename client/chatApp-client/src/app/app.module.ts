@@ -16,6 +16,7 @@ import { ChatListComponent } from './chat-list/chat-list.component';
 import { ChatWindowComponent } from './chat-window/chat-window.component';
 import { MessageComponent } from './message/message.component';
 import { CookieService } from 'ngx-cookie-service';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { CookieService } from 'ngx-cookie-service';
     ChatListComponent,
     ChatWindowComponent,
     MessageComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,

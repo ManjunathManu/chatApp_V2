@@ -43,14 +43,13 @@ export class SocketsService {
     });
 
     this.socket.on('message', (msg: any) => {
-      // console.log('new message from server',msg)
       this.messagesSource.next(msg);
     })
   }
 
   sendMessage(message, receiverName): void {
     this.socket.emit('message', message, receiverName);
-    // this.messagesSource.next(msg);
+    this.messagesSource.next(message);
   }
 
   updateSocketId(userId, operation): void {
@@ -72,10 +71,18 @@ export class SocketsService {
 
     const messages =  this.http.get<any>(url, httpOptions)
     .pipe(
-      tap ( _ => console.log('Fetched All private messaged')),
-      map(message => {console.log('map on Message----',message);this.messagesSource.next(message)})
+      tap ( _ => {this.pushMessages(_);console.log('Fetched All private messaged',_)}),
+      
+      // map((message,i) => {console.log('map on Message----',Array.isArray(message),message[i]);this.messagesSource.next(message[i])})
     )
     .subscribe(message => console.log(message) )
     // messages.subscribe(message => console.log(message) )
+  }
+
+  pushMessages(messages:any){
+    console.log('push messages',messages)
+    messages.map(message => {
+      console.log('pushing message--',message)
+      this.messagesSource.next(message)})
   }
 }

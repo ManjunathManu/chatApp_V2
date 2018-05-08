@@ -69,22 +69,9 @@ export class UserService {
     }
     return this.http.get(url,httpOptions)
       .pipe(
-      tap(_ => console.log(`Fetched users`))
+      tap(_ => console.log(`Fetched users`)),
+      // map(user => console.log('user---',user))
       )
   }
-
-  // getPrivateMessages(senderName, receiverName):Observable<any>{
-  //   const url = `${this.userUrl}/chat/${senderName}/${receiverName}`
-  //   const httpOptions = {
-  //     headers: new HttpHeaders({
-  //       'authorization': this.cookieService.get('chatApp_V2')
-  //     })
-  //   }
-
-  //   return this.http.get(url, httpOptions)
-  //   .pipe(
-  //     tap ( _ => console.log('Fetched All private messaged'))
-  //   )
-  // }
 
 }

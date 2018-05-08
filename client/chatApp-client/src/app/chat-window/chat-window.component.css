@@ -1,5 +1,13 @@
+#test{
+    padding: 0;
+}
 #messageBar{
     position: absolute;
     bottom: 0;
     left: 0;
+}
+
+.messageWindow{
+    position: relative;
+    overflow-y: scroll
 }

@@ -23,10 +23,10 @@ export class ChatListComponent implements OnInit {
   ngOnInit() {
   }
 
-  getPrivateMessages(senderName, receiverName) {
-    this.socketsService.getPrivateMessages(senderName, receiverName)
-      // .subscribe((messges) => {
-      //   console.log('messageddddd', messges);
-      // })
-  }
+  // getPrivateMessages(senderName, receiverName) {
+  //   this.socketsService.getPrivateMessages(senderName, receiverName)
+  //     // .subscribe((messges) => {
+  //     //   console.log('messageddddd', messges);
+  //     // })
+  // }
 }

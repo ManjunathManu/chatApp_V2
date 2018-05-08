@@ -76,7 +76,11 @@ router.get('/chat/:senderName/:receiverName',authenticate, function(req, res){
         })
         .catch((err)=>{
             console.log('Could not fetch the chat messages',err);
-            res.status(500).send('Internal server error')
+            if(!err){
+                res.status(404).send('Chat document does not exist');
+            }else{
+                res.status(500).send('Internal server error')
+            }
         })
 })
 module.exports = router;
