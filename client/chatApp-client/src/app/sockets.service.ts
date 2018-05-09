@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable,EventEmitter } from '@angular/core';
 import * as io from 'socket.io-client';
 import { Observable } from 'rxjs/Observable';
 import { Message } from './message'
@@ -62,7 +62,7 @@ export class SocketsService {
   }
 
   getPrivateMessages(senderName, receiverName){
-    const url = `${this.userUrl}/chat/${senderName}/${receiverName}`
+    const url = `${this.userUrl}/chat/${senderName}/${receiverName}`;
     const httpOptions = {
       headers: new HttpHeaders({
         'authorization': this.cookieService.get('chatApp_V2')
@@ -72,17 +72,15 @@ export class SocketsService {
     const messages =  this.http.get<any>(url, httpOptions)
     .pipe(
       tap ( _ => {this.pushMessages(_);console.log('Fetched All private messaged',_)}),
-      
       // map((message,i) => {console.log('map on Message----',Array.isArray(message),message[i]);this.messagesSource.next(message[i])})
     )
     .subscribe(message => console.log(message) )
-    // messages.subscribe(message => console.log(message) )
   }
 
   pushMessages(messages:any){
     console.log('push messages',messages)
     messages.map(message => {
-      console.log('pushing message--',message)
       this.messagesSource.next(message)})
   }
+
 }

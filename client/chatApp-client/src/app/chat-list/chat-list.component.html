@@ -1,6 +1,12 @@
 <h3>Chat list</h3>
-<ul>
+<!-- <ul>
   <li *ngFor="let user of users">
     <a routerLink="/chat/{{senderName}}/{{user.userName}}">{{user.userName}}</a>
   </li>
-</ul>
+</ul> -->
+<mat-list>
+  <mat-list-item *ngFor="let user of users;last as last">
+    <a routerLink="/chat/{{senderName}}/{{user.userName}}">{{user.userName}}</a>
+    <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+  </mat-list-item>
+</mat-list>

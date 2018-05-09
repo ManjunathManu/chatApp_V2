@@ -1,4 +1,4 @@
-<ul class="nav justify-content-center">
+<!-- <ul class="nav justify-content-center">
   <li class="nav-item">
     <a class="nav-link active" href="#">Sign up</a>
   </li>
@@ -11,4 +11,19 @@
   <li class="nav-item">
     <a class="nav-link disabled" href="#">Disabled</a>
   </li>
-</ul>
+</ul> -->
+<mat-toolbar color="primary">
+  <span>Chat Application</span>
+
+  <!-- This fills the remaining space of the current row -->
+  <span class="example-fill-remaining-space"></span>
+
+  <span id="test1">
+      <a mat-button routerLink="/signUp">Sign up</a>
+      <a mat-button	routerLink="/login">Log in</a>    
+  </span>
+
+  <span id="test2">
+    <a routerLink="login" mat-button>Logout</a>
+  </span>
+</mat-toolbar>

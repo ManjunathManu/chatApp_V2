@@ -1,9 +1,10 @@
 <div class="container-fluid">
   <div class="row content">
-    <div class="col-sm-3 chatList">
+    <div class="col-sm-2 chatList">
       <app-chat-list [users]="users"></app-chat-list>
     </div>
-    <div class="col-sm-9 chatWindow">
+        <!-- <mat-divider [vertical]="true" style="display:inline"></mat-divider> -->
+    <div class="col-sm-10 chatWindow">
       <router-outlet></router-outlet>
     </div>
   </div>

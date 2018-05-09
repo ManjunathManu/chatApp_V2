@@ -7,21 +7,12 @@ import { SocketsService } from '../sockets.service';
   styleUrls: ['./message.component.css']
 })
 export class MessageComponent implements OnInit {
- private messageHistory :Message[] = [];
-  constructor(private socketService:SocketsService) { 
-    this.socketService.messages$.subscribe((message)=>{
-      this.messageHistory.push(message);
-      console.log('message--',this.messageHistory)
-    })
-  }
+  @Input() message: Message = null;
+  constructor(private socketService: SocketsService) { }
 
   ngOnInit() {
   }
 
-  ngOnChanges(){
-    
-    // console.log('messafe-----',typeof this.message, this.message)
-    // this.messageHistory.push(this.message);   
-    // console.log('Message history',this.messageHistory)
+  ngOnChanges() {
   }
 }

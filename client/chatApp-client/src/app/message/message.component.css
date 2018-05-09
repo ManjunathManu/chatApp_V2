@@ -1,0 +1,14 @@
+.sender{
+    color:#9500ff;
+    font-style: initial;
+    display:inline
+}
+
+.messageText{
+    color: black
+}
+
+.time{
+    color: rgb(173, 193, 250);
+    display:inline
+}

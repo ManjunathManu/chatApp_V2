@@ -2,12 +2,16 @@
     padding: 0;
 }
 #messageBar{
-    position: absolute;
+    position: relative;
     bottom: 0;
     left: 0;
 }
 
 .messageWindow{
     position: relative;
-    overflow-y: scroll
+    overflow-y: auto;
+}
+
+.message{
+    align-items: right;
 }

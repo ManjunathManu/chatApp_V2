@@ -1,10 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,EventEmitter,Input ,Output} from '@angular/core';
 import { SocketsService } from './../sockets.service'
 import { Message } from './../message';
 import { CookieService } from 'ngx-cookie-service';
-import { Input } from '@angular/core/src/metadata/directives';
 import { ActivatedRoute } from '@angular/router';
-
 @Component({
   selector: 'app-chat-window',
   templateUrl: './chat-window.component.html',
@@ -13,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ChatWindowComponent implements OnInit {
 
   public messageToBeSent: Message = null;
+  public messageHistory :Message[] = [];
   private senderName: string = null;
   private receiverName: string = null;
   private showChatWindow: boolean = false;
@@ -22,38 +21,28 @@ export class ChatWindowComponent implements OnInit {
     private socketsService: SocketsService,
     private cookieService: CookieService,
     private route: ActivatedRoute) {
-    // this.socketsService.messages$.subscribe(
-    //   message => {
-    //     this.messageToBeSent = message;
-    //   }
-    // )
     this.sub = this.route.parent.params
     .subscribe(params => {
       this.senderName = params["senderName"];
-      console.log('sender name--',this.senderName)
+      console.log('sender name--',this.senderName);
     });
 
     this.route.params.subscribe(params => {
       console.log('!!!!!!!!!', params);
+      console.log(' chat window commm')
       this.receiverName = params.receiverName;
+      this.messageHistory = [];
       // this.socketsService.getPrivateMessages(this.senderName, this.receiverName)
-
     });
+
+    this.socketsService.messages$.subscribe((msg)=>{
+      this.messageHistory.push(msg);
+    })
 
     this.showChatWindow = this.route.snapshot.data['showChatWindow'];
   }
 
   ngOnInit() {
-    // Get parent ActivatedRoute of this route.
-    // this.senderName = this.route.snapshot.params.senderName;
-    // this.receiverName = this.route.snapshot.params.receiverName;
-
-    // this.sub = this.route.parent.params
-    //   .subscribe(params => {
-    //     this.senderName = params["senderName"];
-    //     console.log('sender name--',this.senderName)
-    //   });
-    // this.socketsService.getPrivateMessages(this.senderName, this.receiverName)
   }
 
   ngOnDestroy() {
@@ -61,9 +50,11 @@ export class ChatWindowComponent implements OnInit {
   }
 
   sendMessage(msg: string): void {
-    this.receiverName = this.route.snapshot.params.receiverName;
-    console.log(`sender=${this.senderName},receiver=${this.receiverName}`)
-    this.messageToBeSent = new Message(this.senderName, msg, Date());
-    this.socketsService.sendMessage(this.messageToBeSent, this.receiverName);
+    if(msg.length > 0){
+      this.receiverName = this.route.snapshot.params.receiverName;
+      console.log(`sender=${this.senderName},receiver=${this.receiverName}`)
+      this.messageToBeSent = new Message(this.senderName, msg, Date());
+      this.socketsService.sendMessage(this.messageToBeSent, this.receiverName);
+    }
   }
 }

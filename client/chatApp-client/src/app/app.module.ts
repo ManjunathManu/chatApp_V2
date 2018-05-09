@@ -17,6 +17,7 @@ import { ChatWindowComponent } from './chat-window/chat-window.component';
 import { MessageComponent } from './message/message.component';
 import { CookieService } from 'ngx-cookie-service';
 import { NavbarComponent } from './navbar/navbar.component';
+import {MaterialModule} from './material/material.module';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { NavbarComponent } from './navbar/navbar.component';
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
+    MaterialModule
   ],
   providers: [
     UserService,
