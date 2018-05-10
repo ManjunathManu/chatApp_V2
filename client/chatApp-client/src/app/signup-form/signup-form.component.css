@@ -7,10 +7,14 @@
   }
 
   input {
-      width : 50%;
+      width : 70%;
   }
 
   .container{
     width: 50%;
     margin: 20px auto;
+    padding-top: 70px;
+  }
+  form{
+    text-align: left
   }

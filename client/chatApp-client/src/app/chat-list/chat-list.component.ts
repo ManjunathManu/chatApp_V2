@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 // import { RouterLink } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
+import { CookieService } from 'angular2-cookie';
 import { UserService } from './../user.service'
 import { ActivatedRoute } from '@angular/router';
 import { SocketsService } from './../sockets.service'

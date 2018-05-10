@@ -15,7 +15,7 @@ import { LoginComponent } from './login/login.component';
 import { ChatListComponent } from './chat-list/chat-list.component';
 import { ChatWindowComponent } from './chat-window/chat-window.component';
 import { MessageComponent } from './message/message.component';
-import { CookieService } from 'ngx-cookie-service';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import {MaterialModule} from './material/material.module';
 

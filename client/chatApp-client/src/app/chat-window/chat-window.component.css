@@ -1,17 +1,27 @@
 #test{
-    padding: 0;
+    max-height: calc( 100% - 64px);
 }
 #messageBar{
     position: relative;
+    padding-top: 10px;
     bottom: 0;
     left: 0;
 }
 
 .messageWindow{
     position: relative;
-    overflow-y: auto;
+    overflow: auto;
+    height: 519px;
+    display: block;
+    padding: 0;
+    /* box-sizing: inherit; */
+    border: 1px solid #ced4db;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
 }
 
 .message{
-    align-items: right;
+    text-align: right;
+    background: moccasin;
 }

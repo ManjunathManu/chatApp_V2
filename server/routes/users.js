@@ -72,6 +72,8 @@ router.get('/chat/:senderName/:receiverName',authenticate, function(req, res){
     console.log('fetch chat messages for sender and receiver---',senderName,receiverName)
     Chat.findChatInDb(senderName, receiverName)
         .then((chats)=>{
+            console.log('splice--',chats.messages.length)
+            let lastTenChats = chats.messages.splice(0,chats.messages.length-15)
             res.status(200).send(chats.messages)
         })
         .catch((err)=>{

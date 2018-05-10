@@ -7,7 +7,7 @@ import { AlertsService } from './alerts.service';
 import { Alert } from './alert';
 import 'rxjs/add/operator/toPromise'
 import { Observable } from 'rxjs/Observable';
-import { CookieService } from 'ngx-cookie-service';
+import { CookieService } from 'angular2-cookie';
 import { Message } from './message';
 @Injectable()
 export class UserService {
@@ -26,7 +26,7 @@ export class UserService {
         .toPromise()
         .then((response:any) => {
           console.log("sign up api status--", response.body);
-          this.cookieService.set('chatApp_V2', response.headers.get('authorization'));
+          this.cookieService.put('chatApp_V2', response.headers.get('authorization'));
           this.alertService.add(new Alert(true, "You have succesfully signed up"));
           resolve(response);
         })
@@ -45,7 +45,7 @@ export class UserService {
         .toPromise()
         .then((response:any) => {
           console.log("log in api status--", response.body);
-          this.cookieService.set('chatApp_V2', response.headers.get('authorization'));
+          this.cookieService.put('chatApp_V2', response.headers.get('authorization'));
           this.alertService.add(new Alert(true, "You have succesfully logged in"));
           resolve(response);
         })

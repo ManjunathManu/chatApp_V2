@@ -1,8 +1,11 @@
 <div>
-  <h6 class="sender">{{message.sender}}</h6>
-  <span class="time">{{message.time | date:'d/M/yy, h:mm a'}}</span>
+    <div>
+        <h6 class="sender">{{message.sender}}</h6>
+        <span class="time">{{message.time | date:'d/M/yy, h:mm a'}}</span>
+      </div>
+      <div>
+        <p class="messageText">{{message.text}}</p>
+      </div>
 </div>
-<div>
-  <p class="messageText">{{message.text}}</p>
-</div>
+
 

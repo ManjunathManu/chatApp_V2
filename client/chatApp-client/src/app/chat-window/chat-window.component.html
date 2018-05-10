@@ -2,8 +2,9 @@
   <h4>
     {{receiverName}}
   </h4>
-  <div class="messageWindow">
-    <app-message *ngFor="let message of messageHistory" [message]="message" [ngClass]="message.sender === senderName ? message : null"></app-message>
+  <div class="messageWindow" (scroll)="onScroll($event)" [scrollTop]="messageWindow.scrollHeight" #messageWindow>
+    <app-message *ngFor="let message of messageHistory" [message]="message" 
+    [ngClass]="message.sender === senderName ? 'message' : null"></app-message>
   </div>
   <div class="input-group" id="messageBar">
     <input (keyup.enter)="sendMessage(message.value);message.value=''" name="message" id="message-form" class="form-control"

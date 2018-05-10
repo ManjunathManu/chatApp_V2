@@ -33,7 +33,7 @@ export class SignupFormComponent implements OnInit {
       })
   }
 
-  public onClickLogin(){
-    this.router.navigateByUrl('/login')
-  }
+  // public onClickLogin(){
+  //   this.router.navigateByUrl('/login')
+  // }
 }

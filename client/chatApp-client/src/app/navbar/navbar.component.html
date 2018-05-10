@@ -18,12 +18,13 @@
   <!-- This fills the remaining space of the current row -->
   <span class="example-fill-remaining-space"></span>
 
-  <span id="test1">
-      <a mat-button routerLink="/signUp">Sign up</a>
-      <a mat-button	routerLink="/login">Log in</a>    
-  </span>
-
-  <span id="test2">
-    <a routerLink="login" mat-button>Logout</a>
+  <ng-template #notLoggedIn>
+      <span>
+          <a mat-button routerLink="/signUp">Sign up</a>
+          <a mat-button	routerLink="/login">Log in</a>    
+      </span>
+  </ng-template>
+  <span id="loggedIn" *ngIf="isTokenPresent;else notLoggedIn" >
+    <a routerLink="login" mat-button (click)="onLogout()">Logout</a>
   </span>
 </mat-toolbar>

@@ -2,13 +2,17 @@
   /* background-color: #b6e97c; */
   overflow-y: auto;
   }
-  .row.content {height: 100vh;}
+  .row.content {
+    max-height: 614px;/*to be calculated*/
+    height: 100vh;
+  }
 
   .chatWindow {
     /* background-color: #d9e7bf; */
-    height:100%;
+    max-height: calc( 100% - 64px);
+    height: 100%;
     position: relative;
-    overflow-y: auto;
+    /* overflow-y: auto; */
   }
 
   @media screen and (max-width: 767px) {
@@ -17,4 +21,13 @@
       padding: 15px;
     }
     .row.content {height: auto;} 
+  }
+
+  .container-fluid{
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 64px;
   }

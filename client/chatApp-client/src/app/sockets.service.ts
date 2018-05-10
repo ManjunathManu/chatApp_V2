@@ -3,7 +3,7 @@ import * as io from 'socket.io-client';
 import { Observable } from 'rxjs/Observable';
 import { Message } from './message'
 import { Subject } from 'rxjs/Subject'
-import { CookieService } from 'ngx-cookie-service';
+import { CookieService } from 'angular2-cookie';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';

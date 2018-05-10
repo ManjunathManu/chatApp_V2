@@ -11,7 +11,7 @@ export class ChatComponent implements OnInit{
   public users : Object[] = []
   private socket = null;
   // private showChatWindow : boolean = false;
-private senderName :string = null;
+  private senderName :string = null;
   constructor(private userService:UserService,
   private socketsService:SocketsService,
   private route: ActivatedRoute) { }
@@ -28,4 +28,5 @@ private senderName :string = null;
     this.socketsService.intializeSocketConnection(this.senderName);
     // console.log('Query params---',this.route.snapshot.params.uid)
   }
+
 }

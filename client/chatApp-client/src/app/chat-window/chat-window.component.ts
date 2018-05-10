@@ -1,7 +1,7 @@
-import { Component, OnInit,EventEmitter,Input ,Output} from '@angular/core';
+import { Component, OnInit,EventEmitter,Input ,Output,HostListener} from '@angular/core';
 import { SocketsService } from './../sockets.service'
 import { Message } from './../message';
-import { CookieService } from 'ngx-cookie-service';
+import { CookieService } from 'angular2-cookie';
 import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-chat-window',
@@ -32,7 +32,7 @@ export class ChatWindowComponent implements OnInit {
       console.log(' chat window commm')
       this.receiverName = params.receiverName;
       this.messageHistory = [];
-      // this.socketsService.getPrivateMessages(this.senderName, this.receiverName)
+      this.socketsService.getPrivateMessages(this.senderName, this.receiverName)
     });
 
     this.socketsService.messages$.subscribe((msg)=>{
@@ -57,4 +57,13 @@ export class ChatWindowComponent implements OnInit {
       this.socketsService.sendMessage(this.messageToBeSent, this.receiverName);
     }
   }
+
+
+  @HostListener('window:scroll',['$event'])
+  onScroll($event){
+    // console.log('scrolling---',$event);
+    if($event.srcElement.scrollTop == 0){
+      console.log('We reached the top',$event)
+    }
+  }  
 }

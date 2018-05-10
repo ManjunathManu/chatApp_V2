@@ -6,23 +6,23 @@
       <input type="email" class="form-control" id="userName" aria-describedby="userNameHelp" placeholder="Enter username" required
         [(ngModel)]="user.userName" name="userName" #userName="ngModel">
     </div>
-    <div [hidden]="userName.valid || userName.pristine" class="alert alert-danger">
-      Username is required
+    <div [hidden]="userName.valid || userName.pristine" style="color:red">
+      Username is required*.
     </div>
+
     <div class="form-group">
       <label for="exampleInputEmail1">Email address</label>
       <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" required
         [(ngModel)]="user.email" name="email" #email="ngModel">
       <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
     </div>
-    <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
-
+    <div *ngIf="email.invalid && (email.dirty || email.touched)" style="color:red">
       <div *ngIf="email.errors.required">
-        Email is required.
+        Email is required*.
       </div>
-      <div *ngIf="!email.errors.email">
+      <!-- <div *ngIf="!email.errors.email">
         Invalid email.
-      </div>
+      </div> -->
     </div>
     <!-- <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
       Email is required
@@ -32,10 +32,9 @@
       <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required [(ngModel)]="user.password"
         name="password" #password="ngModel" minlength="6">
     </div>
-    <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
-
+    <div *ngIf="password.invalid && (password.dirty || password.touched)" style="color:red">
       <div *ngIf="password.errors.required">
-        Password is required.
+        Password is required*.
       </div>
       <div *ngIf="password.errors.minlength">
         Password must be at least 6 characters long.
@@ -45,8 +44,6 @@
   </form>
   <div >
     <p style="display:inline">Already a member?</p>
-    <button type="submit" class="btn btn-secondary" style="display:inline"
-    (click)="onClickLogin()">Log in</button>
+    <a routerLink="/login">Login</a>
   </div>
-
 </div>
