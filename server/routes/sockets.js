@@ -8,9 +8,11 @@ function socketCommunication(socket) {
         if (!userName) {
             cb('UserName does not exist')
         } else {
-            User.updateSocketId(socket.id, userName, operation)
+            User.updateSocketId(socket.id, operation,userName)
                 .then((user) => {
                     // cb('Successfully saved the socketid');
+                    console.log('update user socket---', userName,operation, socket.id)
+                    socket.broadcast.emit('updateUserList', { userName,status:"online" })
                 })
                 .catch((err) => {
                     console.log('err', err)
@@ -21,6 +23,14 @@ function socketCommunication(socket) {
 
     socket.on('disconnect', () => {
         console.log('User disconnected--', socket.id);
+        User.updateSocketId(socket.id, "remove")
+            .then((user) => {
+                console.log('update user socket---', user.userName,user.socketId);
+                socket.broadcast.emit('updateUserList', { userName:user.userName,status:"offline" })
+            })
+            .catch((err) => {
+                console.log('err', err)
+            })
     });
 
     socket.on('message', async (message, receiverName) => {
@@ -37,7 +47,7 @@ function socketCommunication(socket) {
             })
             .catch((err) => {
                 console.log('ERROR', err);
-                if(!err){
+                if (!err) {
                     newChat.save((err) => {
                         if (err) {
                             console.log('Could not save chats', err)
@@ -47,13 +57,13 @@ function socketCommunication(socket) {
                     })
                 }
             })
-            try{
-                let receiverSocketId = await User.getSocketId(receiverName);
-                console.log('receiversocketId--->',receiverSocketId)
-                socket.to(receiverSocketId).emit('message',message)
-            }catch(err){
-                console.log('Error while emiting to receiver',err);
-            }
+        try {
+            let receiverSocketId = await User.getSocketId(receiverName);
+            console.log('receiversocketId--->', receiverSocketId)
+            socket.to(receiverSocketId).emit('message', message)
+        } catch (err) {
+            console.log('Error while emiting to receiver', err);
+        }
     })
 }
 

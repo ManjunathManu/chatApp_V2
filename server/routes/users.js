@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { User } = require('./../models/users');
 const { Chat } = require('./../models/chats');
-
+const {socketCommunication } = require('./sockets');
 const {authenticate} = require('./../middleware/authenticate');
 
 router.post('/signUp', function (req, res) {
@@ -12,7 +12,8 @@ router.post('/signUp', function (req, res) {
         {
             userName: data.userName,
             email: data.email,
-            password: data.password
+            password: data.password,
+            status:'online'
         }
     );
     User.findUserInDb(user)
@@ -25,6 +26,7 @@ router.post('/signUp', function (req, res) {
                      user.generateAuthToken()
                         .then((token) => {
                             res.status(200).header('Authorization', `Bearer ${token}`).send({ status: "Successfully signed up", user });
+                            // socketCommunication.emitUpdateUpdateUserListEvent({_id:user._id,userName:user.userName})
                         })
                 }
             })
@@ -51,7 +53,7 @@ router.post('/logIn', function (req, res) {
         })
         .catch((err) => {
             console.log("Find by credentials--",err);
-            res.status(401).send({ status: "Unauthorized user", err });
+            res.status(401).send({ status: "Unauthorized user", err:err || "User does not exist" });
         })
 })
 

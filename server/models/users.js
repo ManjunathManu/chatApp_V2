@@ -11,7 +11,8 @@ const UserSchema = new Schema({
     email: { type: String, required: true, index: true },
     password: { type: String, required: true },
     signedUpDate: { type: Date, default: Date.now },
-    socketId: { type: String, default: null }
+    socketId: { type: String, default: null },
+    status:{type:String,required:true}
 });
 
 UserSchema.pre('save', function (next) {
@@ -82,7 +83,7 @@ UserSchema.statics.findByCredentials = function (email, password) {
 UserSchema.statics.getAllUsers = function (requestingUser) {
     let User = this;
 
-    return User.find({}, 'userName')
+    return User.find({},{userName:1,status:1})
         .then((users) => {
             if (users && users.length > 0) {
                 users = users.filter(user => user.userName !== requestingUser);
@@ -153,27 +154,46 @@ UserSchema.statics.findByToken = function (token) {
         })
 };
 
-UserSchema.statics.updateSocketId = function(socketId,userName,operation){
+UserSchema.statics.updateSocketId = function (socketId, operation, userName) {
     let User = this;
-    this.socketId = operation == "add" ? socketId : null;
-    return User.findOneAndUpdate({userName},{$set:{socketId:socketId}},{new: true})
-        .then((user)=>{
+    if (operation !== "add") {
+        return User.findOneAndUpdate({ socketId }, { $set: { socketId: null,status:'offline' } }, { new: true })
+            .then((user) => {
+                // console.log('user---', user)
+                if (!user) {
+                    return Promise.reject('No user found');
+                } else {
+                    // console.log('updated user---',user)
+                    return Promise.resolve(user);
+                }
+            })
+            .catch((err) => {
+                return Promise.reject(err);
+            })
+    }else{
+        return User.findOneAndUpdate({ userName }, { $set: { socketId: socketId,status:'online'} }, { new: true })
+        .then((user) => {
+            console.log('user---', user)
             if (!user) {
-                return Promise.reject();
-            }else{
+                return Promise.reject('No user found');
+            } else {
                 // console.log('updated user---',user)
                 return Promise.resolve(user);
             }
         })
+        .catch((err) => {
+            return Promise.reject(err);
+        })
+    }
 }
 
-UserSchema.statics.getSocketId = async function(userName){
+UserSchema.statics.getSocketId = async function (userName) {
     let User = this;
-    return User.findOne({userName},'socketId')
-        .then((user)=>{
-            if(!user){
+    return User.findOne({ userName }, 'socketId')
+        .then((user) => {
+            if (!user) {
                 return Promise.reject('Could not find the socketid of the requested user');
-            }else{
+            } else {
                 return Promise.resolve(user.socketId);
             }
         })

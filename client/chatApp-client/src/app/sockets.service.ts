@@ -7,6 +7,7 @@ import { CookieService } from 'angular2-cookie';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
+import { User } from './user';
 
 @Injectable()
 export class SocketsService {
@@ -15,9 +16,12 @@ export class SocketsService {
 
   // Observable string sources
   private messagesSource = new Subject<Message>();
+  private usersSource = new Subject<User>();
 
   // Observable string streams
   messages$ = this.messagesSource.asObservable();
+  users$ = this.usersSource.asObservable();
+  
   private cookieValue: String = null;
 
   constructor(
@@ -39,11 +43,15 @@ export class SocketsService {
       console.log('discc ', this.cookieValue)
       this.updateSocketId(senderName, 'remove')
       console.log(`socket====${this.socket.connected},${this.socket.disconnected},${this.socket.id}`);
-      console.log('DisConnected to server');
+      console.log('DisConnected from server');
     });
 
     this.socket.on('message', (msg: any) => {
       this.messagesSource.next(msg);
+    })
+
+    this.socket.on('updateUserList',(user:User)=>{
+      this.usersSource.next(user);
     })
   }
 

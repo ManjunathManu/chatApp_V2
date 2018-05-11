@@ -10,3 +10,11 @@ input {
 form{
   text-align: left
 }
+.login{
+    border-style: groove;
+    max-width: 500px;
+    padding: 20px;
+    margin: auto;
+    align-items: center;
+    box-shadow: 7px 7px 10px 0px #4e618a;
+}

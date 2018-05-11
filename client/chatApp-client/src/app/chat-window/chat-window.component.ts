@@ -21,6 +21,7 @@ export class ChatWindowComponent implements OnInit {
     private socketsService: SocketsService,
     private cookieService: CookieService,
     private route: ActivatedRoute) {
+      
     this.sub = this.route.parent.params
     .subscribe(params => {
       this.senderName = params["senderName"];
