@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { User }    from '../user';
+import { User } from '../user';
 import {UserService} from './../../app/user.service';
 import { Router } from '@angular/router';
-import {  SocketsService } from './../sockets.service'
+import {  SocketsService } from './../sockets.service';
 
 @Component({
   selector: 'app-signup-form',
@@ -11,12 +11,12 @@ import {  SocketsService } from './../sockets.service'
 })
 export class SignupFormComponent implements OnInit {
 
-  public user = new User("",'','');
-  constructor(private userService : UserService,
-  private router : Router,
-  private socketsService:SocketsService) { }
+  public user = new User('', '', '');
+  constructor(private userService: UserService,
+  private router: Router,
+  private socketsService: SocketsService) {  }
 
-  ngOnInit() {
+  public ngOnInit() {
     // this.socketsService.intializeSocketConnection();
   }
 
@@ -24,13 +24,13 @@ export class SignupFormComponent implements OnInit {
    * onSubmit
    */
   public onSubmit() {
-    console.log('Form submitted',this.user);
+    console.log('Form submitted', this.user);
     this.userService.signUp(this.user)
-      .then((response)=>{
-        this.router.navigateByUrl(`/chat/${response.body.user.userName}`)
+      .then((response) => {
+        this.router.navigateByUrl(`/chat/${response.body.user.userName}`);
       })
-      .catch((error)=>{
-      })
+      .catch((error) => {
+      });
   }
 
   // public onClickLogin(){

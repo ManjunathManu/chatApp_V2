@@ -8,7 +8,7 @@ import {
   animate,
   transition
 } from '@angular/animations';
-import { setTimeout } from 'timers';
+// import { setTimeout } from 'timers';
 
 @Component({
   selector: 'app-alerts',
@@ -30,22 +30,18 @@ import { setTimeout } from 'timers';
     ])
   ]
 })
-export class AlertsComponent implements OnInit {
+export class AlertsComponent  {
   private alertToDisplay: Alert = null;
-  private flyInOut: string = "in";
-  private currentClass: String = this.alertToDisplay && this.alertToDisplay.status ? "alert alert-success" : "alert alert-danger";
+  private flyInOut = 'in';
+  private currentClass: String = this.alertToDisplay && this.alertToDisplay.status ? 'alert alert-success' : 'alert alert-danger';
   constructor(public alertsService: AlertsService) {
     this.alertsService.alerts$
       .subscribe((alert) => {
         this.alertToDisplay = alert;
         setTimeout(() => {
           this.alertsService.clear();
-        }, 3000)
-      })
-
-  }
-
-  ngOnInit() {
+        }, 3000);
+      });
   }
 
 }

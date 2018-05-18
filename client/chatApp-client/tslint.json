@@ -32,7 +32,7 @@
       true,
       140
     ],
-    "member-access": false,
+    "member-access": true,
     "member-ordering": [
       true,
       {
@@ -85,8 +85,8 @@
     ],
     "prefer-const": true,
     "quotemark": [
-      true,
-      "single"
+      false,
+      "single",
     ],
     "radix": true,
     "semicolon": [
@@ -110,7 +110,7 @@
     "unified-signatures": true,
     "variable-name": false,
     "whitespace": [
-      true,
+      false,
       "check-branch",
       "check-decl",
       "check-operator",

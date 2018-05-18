@@ -7,8 +7,8 @@ const Schema = mongoose.Schema,
 
 const UserSchema = new Schema({
     userId: { type: ObjectId },
-    userName: { type: String, required: true, index: true },
-    email: { type: String, required: true, index: true },
+    userName: { type: String, required: true},
+    email: { type: String, required: true },
     password: { type: String, required: true },
     signedUpDate: { type: Date, default: Date.now },
     socketId: { type: String, default: null },

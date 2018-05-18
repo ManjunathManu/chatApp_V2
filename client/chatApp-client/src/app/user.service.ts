@@ -5,7 +5,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { User } from './user';
 import { AlertsService } from './alerts.service';
 import { Alert } from './alert';
-import 'rxjs/add/operator/toPromise'
+import 'rxjs/add/operator/toPromise';
 import { Observable } from 'rxjs/Observable';
 import { CookieService } from 'angular2-cookie';
 import { Message } from './message';
@@ -19,12 +19,12 @@ export class UserService {
     private cookieService: CookieService
   ) { }
 
-  signUp(user): Promise<any> {
+  public signUp(user): Promise<any> {
     const url = `${this.userUrl}/signUp`
     return new Promise((resolve, reject) => {
       this.http.post(url, user, { observe: 'response' })
         .toPromise()
-        .then((response:any) => {
+        .then((response: any) => {
           console.log("sign up api status--", response.body);
           this.cookieService.put('chatApp_V2', response.headers.get('authorization'));
           this.alertService.add(new Alert(true, "You have succesfully signed up"));
@@ -38,12 +38,12 @@ export class UserService {
     });
   }
 
-  logIn(user): Promise<any> {
+  public logIn(user): Promise<any> {
     const url = `${this.userUrl}/logIn`
     return new Promise((resolve, reject) => {
       this.http.post(url, user, { observe: 'response' })
         .toPromise()
-        .then((response:any) => {
+        .then((response: any) => {
           console.log("log in api status--", response.body);
           this.cookieService.put('chatApp_V2', response.headers.get('authorization'));
           this.alertService.add(new Alert(true, "You have succesfully logged in"));
@@ -57,21 +57,31 @@ export class UserService {
     })
   }
 
-  getAllUsers(senderName): Observable<any> {
-    const url = `${this.userUrl}/getAllUsers`
+  public getAllUsers(senderName): Observable<any> {
+    const url = `${this.userUrl}/getAllUsers`;
     const httpOptions = {
       headers: new HttpHeaders({
         'authorization': this.cookieService.get('chatApp_V2'),
       }),
-      params:{
-        senderName:senderName
+      params: {
+        senderName: senderName
       }
-    }
-    return this.http.get(url,httpOptions)
+    };
+    return this.http.get(url, httpOptions)
       .pipe(
       tap(_ => console.log(`Fetched users`)),
       // map(user => console.log('user---',user))
-      )
+    );
   }
 
+  public isAuthenticated(): Observable<boolean> {
+    const token = this.cookieService.get('chatApp_V2');
+    if (token) {
+      // return Observable.of(true);
+      return new Observable(observer => observer.next(true));
+    } else {
+      return new Observable(observer => observer.next(false));
+      // return Observable.of(false);
+    }
+  }
 }
