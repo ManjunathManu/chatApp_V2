@@ -9,10 +9,12 @@ import 'rxjs/add/operator/toPromise';
 import { Observable } from 'rxjs/Observable';
 import { CookieService } from 'angular2-cookie';
 import { Message } from './message';
+import { Subject } from 'rxjs/Subject';
 @Injectable()
 export class UserService {
   private userUrl = '/api/user';  // URL to web api
-
+  private tokenSource = new Subject<boolean>();
+   token$ = this.tokenSource.asObservable();
   constructor(
     private http: HttpClient,
     private alertService: AlertsService,
@@ -27,6 +29,7 @@ export class UserService {
         .then((response: any) => {
           console.log("sign up api status--", response.body);
           this.cookieService.put('chatApp_V2', response.headers.get('authorization'));
+          this.cookieService.put('userName',response.body.user.userName);
           this.alertService.add(new Alert(true, "You have succesfully signed up"));
           resolve(response);
         })
@@ -46,6 +49,7 @@ export class UserService {
         .then((response: any) => {
           console.log("log in api status--", response.body);
           this.cookieService.put('chatApp_V2', response.headers.get('authorization'));
+          this.cookieService.put('userName',response.body.user.userName);
           this.alertService.add(new Alert(true, "You have succesfully logged in"));
           resolve(response);
         })
@@ -74,14 +78,17 @@ export class UserService {
     );
   }
 
-  public isAuthenticated(): Observable<boolean> {
+  public isAuthenticated(): void {
     const token = this.cookieService.get('chatApp_V2');
+    console.log('auth function')
     if (token) {
       // return Observable.of(true);
-      return new Observable(observer => observer.next(true));
+      // return new Observable(observer => observer.next(true));
+      this.tokenSource.next(true);
     } else {
-      return new Observable(observer => observer.next(false));
+      // return new Observable(observer => observer.next(false));
       // return Observable.of(false);
+      this.tokenSource.next(false);
     }
   }
 }

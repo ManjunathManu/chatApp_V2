@@ -25,6 +25,7 @@
       </span>
   </ng-template>
   <span id="loggedIn" *ngIf="isTokenPresent;else notLoggedIn" >
+    <p> {{user}}</p>
     <a routerLink="login" mat-button (click)="onLogout()">Logout</a>
   </span>
 </mat-toolbar>

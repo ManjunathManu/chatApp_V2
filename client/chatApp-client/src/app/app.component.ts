@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CookieService } from 'angular2-cookie';
 import { NavbarComponent} from './navbar/navbar.component';
+import { UserService } from './user.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,9 +14,9 @@ export class AppComponent {
    * constructor
    */
   public constructor(
-    private cookieService: CookieService
-  ) {
-    // this.token = this.cookieService.get('chatApp_V2');
-    // console.log('token [app compo]--', this.token);
+    private userService: UserService
+  ) { }
+  onRouteChange(){
+    this.userService.isAuthenticated();
   }
 }

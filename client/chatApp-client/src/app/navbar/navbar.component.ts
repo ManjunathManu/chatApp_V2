@@ -10,19 +10,24 @@ import {UserService} from './../../app/user.service';
 })
 export class NavbarComponent implements OnInit, OnChanges {
   private isTokenPresent: boolean = null;
+  private user : string = null;
   // @Input () public isTokenPresent: string = null;
   constructor(private route: ActivatedRoute,
     private cookieService: CookieService,
     private userService: UserService
-  ) { userService.isAuthenticated().subscribe(isAuth => this.isTokenPresent = isAuth);
+  ) { 
+    this.userService.token$.subscribe((token)=>{
+      this.isTokenPresent = token;
+    })
   }
 
-  public ngOnInit() {
+  public ngOnInit() { 
   }
 
  public onLogout() {
     console.log('token--', this.cookieService.get('chatApp_V2'));
     this.cookieService.remove('chatApp_V2');
+    this.cookieService.remove('userName');
   }
   /**
    * ngOnChages
