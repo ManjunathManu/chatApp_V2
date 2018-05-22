@@ -8,16 +8,16 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import { User } from './user';
-
+// import {ChatWindowComponent} from './chat-window/chat-window-component'
 @Injectable()
 export class SocketsService {
   private socket: any = null;
   private userUrl = '/api/user';  // URL to web api
-
+  private pageSize :number = 10;
   // Observable string sources
   private messagesSource = new Subject<Message>();
   private usersSource = new Subject<User>();
-
+  public EOF:boolean = false;
   // Observable string streams
   messages$ = this.messagesSource.asObservable();
   users$ = this.usersSource.asObservable();
@@ -69,8 +69,8 @@ export class SocketsService {
     })
   }
 
-  getPrivateMessages(senderName, receiverName){
-    const url = `${this.userUrl}/chat/${senderName}/${receiverName}`;
+  getPrivateMessages(senderName, receiverName,pageNumber){
+    const url = `${this.userUrl}/chat/${senderName}/${receiverName}?pageNumber=${pageNumber}&size=${this.pageSize}`;
     const httpOptions = {
       headers: new HttpHeaders({
         'authorization': this.cookieService.get('chatApp_V2')
@@ -79,15 +79,23 @@ export class SocketsService {
 
     const messages =  this.http.get<any>(url, httpOptions)
     .pipe(
-      tap ( _ => {this.pushMessages(_);console.log('Fetched All private messaged',_)}),
+      tap ( _ => {this.pushMessages(_,pageNumber);console.log('Fetched All private messaged',_)}),
       // map((message,i) => {console.log('map on Message----',Array.isArray(message),message[i]);this.messagesSource.next(message[i])})
     )
     .subscribe(message => console.log(message) )
   }
 
-  pushMessages(messages:any){
-    console.log('push messages',messages)
-    messages.map(message => {
+  pushMessages(response:any,pageNumber:number){
+    console.log('push messages',response);
+    if(pageNumber == 1){
+      response.chatMessages.reverse();
+    }
+    if(response.EOF){
+      console.log('EOF');
+      this.EOF = true;
+    }
+    // console.log('after reve',messages)
+    response.chatMessages.map(message => {
       this.messagesSource.next(message)})
   }
 

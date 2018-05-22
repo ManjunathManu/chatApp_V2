@@ -4,43 +4,40 @@ const Schema = mongoose.Schema,
 
 const ChatSchema = new Schema({
     chatId: { type: ObjectId },
-    userNames: [{type:String, required:true}],
+    userNames: [{ type: String, required: true }],
     messages: { type: Array, required: true },
 });
 
 ChatSchema.statics.saveMessage = function (message, receiverName) {
     let Chat = this;
     return Chat.findOneAndUpdate({
-        userNames:{
-            $all:[message.sender, receiverName]
+        userNames: {
+            $all: [message.sender, receiverName]
         }
-    }, { $push: { messages: message } }, { new: true })
+    }, { $push: { messages: { $each: [message], $position: 0 } } }, { new: true })
         .then((chats) => {
             console.log('updated Chats---')
         })
 }
 
-ChatSchema.statics.findChatInDb = function (senderName, receiverName) {
+ChatSchema.statics.findChatInDb = function (senderName, receiverName, pageNumber, pageSize) {
     return new Promise((resolve, reject) => {
         let Chat = this;
-        Chat.findOne({
-            userNames:{
-                $all:[senderName, receiverName]
-            }
-        },'messages', (err, chats) => {
-            // console.log('chats----',chats);
-            if (err) {
+        Chat.findOne({ userNames: { $all: [senderName, receiverName] } },
+            // { messages: { $slice: [-(pageNumber*10),10]} }, 
+            'messages', )
+            .then((chats) => {
+                if (!chats) {
+                    console.log('No chat document found for these two users')
+                    reject(false);
+                } else {
+                    resolve(chats)
+                }
+            })
+            .catch((err) => {
                 console.log('error while checking for chat--', err);
-                reject(err);
-            } else if (!chats) {
-                console.log('No chat document found for these two users')
-                // resolve(true);
                 reject(false);
-            } else {
-                console.log('Chat document exists for these users');
-                resolve(chats);
-            }
-        })
+            })
     })
 }
 

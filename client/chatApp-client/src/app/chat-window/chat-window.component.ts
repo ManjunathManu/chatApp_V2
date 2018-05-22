@@ -11,10 +11,12 @@ import { ActivatedRoute } from '@angular/router';
 export class ChatWindowComponent implements OnInit {
 
   public messageToBeSent: Message = null;
+  // public msg: Message = null;
   public messageHistory :Message[] = [];
   private senderName: string = null;
   private receiverName: string = null;
   private showChatWindow: boolean = false;
+  private pageCount:number = 1;
   private sub: any;
 
   constructor(
@@ -24,19 +26,20 @@ export class ChatWindowComponent implements OnInit {
     this.sub = this.route.parent.params
     .subscribe(params => {
       this.senderName = params["senderName"];
-      console.log('sender name--',this.senderName);
     });
 
     this.route.params.subscribe(params => {
-      console.log('!!!!!!!!!', params);
-      console.log(' chat window commm')
       this.receiverName = params.receiverName;
       this.messageHistory = [];
-      this.socketsService.getPrivateMessages(this.senderName, this.receiverName)
+      this.socketsService.getPrivateMessages(this.senderName, this.receiverName,this.pageCount)
     });
 
-    this.socketsService.messages$.subscribe((msg)=>{
-      this.messageHistory.push(msg);
+    this.socketsService.messages$.subscribe((message:Message)=>{
+      if(this.pageCount > 1){
+        this.messageHistory.unshift(message);
+      }else{
+        this.messageHistory.push(message);
+      }
     })
 
     this.showChatWindow = this.route.snapshot.data['showChatWindow'];
@@ -63,7 +66,13 @@ export class ChatWindowComponent implements OnInit {
   onScroll($event){
     // console.log('scrolling---',$event);
     if($event.srcElement.scrollTop == 0){
-      console.log('We reached the top',$event)
+      this.pageCount++;
+      console.log('We reached the top',$event,this.pageCount);
+      if(this.pageCount !== -1 ){
+        this.socketsService.getPrivateMessages(this.senderName, this.receiverName,this.pageCount)
+      }
+      console.log('EOF from service--',this.socketsService.EOF)
+      this.pageCount = this.socketsService.EOF ? -1 : this.pageCount ;
     }
   }  
 }
