@@ -5,7 +5,8 @@
     </div>
         <!-- <mat-divider [vertical]="true" style="display:inline"></mat-divider> -->
     <div class="col-sm-10 chatWindow">
-      <router-outlet></router-outlet>
+      <router-outlet #routerOutlet></router-outlet>
+      <div *ngIf="!routerOutlet">Hi</div>
     </div>
   </div>
 </div>

@@ -13,7 +13,7 @@ import { Subject } from 'rxjs/Subject';
 @Injectable()
 export class UserService {
   private userUrl = '/api/user';  // URL to web api
-  private tokenSource = new Subject<boolean>();
+  private tokenSource = new Subject<{isTokenPresent:boolean,userName:string}>();
    token$ = this.tokenSource.asObservable();
   constructor(
     private http: HttpClient,
@@ -80,15 +80,16 @@ export class UserService {
 
   public isAuthenticated(): void {
     const token = this.cookieService.get('chatApp_V2');
+    const userName = this.cookieService.get('userName');
     console.log('auth function')
     if (token) {
       // return Observable.of(true);
       // return new Observable(observer => observer.next(true));
-      this.tokenSource.next(true);
+      this.tokenSource.next({isTokenPresent: true,userName});
     } else {
       // return new Observable(observer => observer.next(false));
       // return Observable.of(false);
-      this.tokenSource.next(false);
+      this.tokenSource.next({isTokenPresent: false,userName});
     }
   }
 }

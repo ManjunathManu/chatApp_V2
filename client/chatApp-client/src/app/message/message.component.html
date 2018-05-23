@@ -1,11 +1,19 @@
-<div>
-    <div>
-        <h6 class="sender">{{message.sender}}</h6>
-        <span class="time">{{message.time | date:'d/M/yy, h:mm a'}}</span>
-      </div>
-      <div>
-        <p class="messageText">{{message.text}}</p>
-      </div>
+<div *ngIf="isTextMessage(message);else locationMsg">
+  <div>
+    <h6 class="sender">{{message.sender}}</h6>
+    <span class="time">{{message.time | date:'d/M/yy, h:mm a'}}</span>
+  </div>
+  <div>
+    <p class="messageText">{{message.text}}</p>
+  </div>
 </div>
 
-
+<ng-template #locationMsg>
+    <div>
+      <h6 class="sender">{{message.sender}}</h6>
+      <span class="time">{{message.time | date:'d/M/yy, h:mm a'}}</span>
+    </div>
+    <div>
+      <a href="{{message.url}}" class="locationUrl" target="_blank">{{message.url}}</a>
+    </div>
+</ng-template>

@@ -95,7 +95,7 @@ router.get('/chat/:senderName/:receiverName', authenticate, function (req, res) 
                         chatMessages = chats.messages.splice(Math.floor(chatLength / pageSize)*pageSize, pageSize)
                         res.status(200).send({chatMessages,EOF:true})
                     }else{
-                        chatMessages = chats.messages.splice(pageNumber * pageSize, pageSize);
+                        chatMessages = chats.messages.splice((pageNumber-1) * pageSize, pageSize);
                         res.status(200).send({chatMessages,EOF:false})
                     }
                 }

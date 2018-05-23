@@ -1,4 +1,4 @@
-<div *ngIf="showChatWindow" id="test">
+<div id="test">
   <h4>
     {{receiverName}}
   </h4>
@@ -10,10 +10,11 @@
     <input (keyup.enter)="sendMessage(message.value);message.value=''" name="message" id="message-form" class="form-control"
       placeholder="Message..." aria-label="Recipient's username" aria-describedby="basic-addon2" #message>
     <div class="input-group-append">
-      <button ng-disabled="true" id="sendBtn" class="btn btn-success" (click)="sendMessage(message.value);message.value=''">
+      <button ng-disabled="true" id="sendBtn" class="btn btn-success" (click)="sendMessage(message.value,'text');message.value=''">
         <i class="material-icons md-24">send</i>
       </button>
-      <button class="btn btn-info" id="send-location">Send location</button>
+      <button class="btn btn-info" id="send-location" (click)="sendLocation()"
+      [disabled]="locationBtnstatus">{{locationText}}</button>
     </div>
   </div>
 </div>

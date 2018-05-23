@@ -16,8 +16,10 @@ export class NavbarComponent implements OnInit, OnChanges {
     private cookieService: CookieService,
     private userService: UserService
   ) { 
-    this.userService.token$.subscribe((token)=>{
-      this.isTokenPresent = token;
+    this.userService.token$
+      .subscribe((token)=>{
+      this.isTokenPresent = token.isTokenPresent;
+      this.user = token.userName;
     })
   }
 
@@ -29,8 +31,6 @@ export class NavbarComponent implements OnInit, OnChanges {
     this.cookieService.remove('chatApp_V2');
     this.cookieService.remove('userName');
   }
-  /**
-   * ngOnChages
-   */
+
   public ngOnChanges() { }
 }
