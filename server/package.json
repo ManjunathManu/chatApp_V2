@@ -9,16 +9,16 @@
   "author": "Manjunath",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^2.0.1",
+    "bcrypt": "^3.0.6",
     "body-parser": "^1.18.2",
     "express": "^4.16.3",
     "http": "0.0.0",
     "jsonwebtoken": "^8.2.1",
     "jsonwebtoken-refresh": "^5.7.0",
-    "mongoose": "^5.0.16",
+    "mongoose": "^5.7.7",
     "socket.io": "^2.1.0"
   },
   "devDependencies": {
-    "@angular/cli": "^1.7.4"
+    "@angular/cli": "^8.3.14"
   }
 }
