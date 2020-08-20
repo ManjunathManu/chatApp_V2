@@ -9,7 +9,7 @@
   "author": "Manjunath",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.18.2",
     "express": "^4.16.3",
     "http": "0.0.0",
